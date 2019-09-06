@@ -14,7 +14,7 @@ def fetch_subreddit(subreddit_name):
     posts = []
     for submission in reddit.subreddit(subreddit_name).hot(limit=15):
         url = submission.url
-        if 'reddit.com' in url:
+        if 'reddit.com' in url or 'redd.it' in url:
             url = None
         posts.append(Post(title=submission.title, selftext=submission.selftext, url=url,
                           score=submission.score, num_comments=submission.num_comments))         
