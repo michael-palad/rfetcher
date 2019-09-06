@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RFetcher</title>
+</head>
+<body>
+  <form method="GET">
+    Enter group to fetch from:
+    <input type="text" name="group">
+    <input type="submit" value="Fetch">
+  </form>
+  
+  {% if group_name and posts %}
+  <h3>Posts for group {{ group_name }}</h3>
+  <ol>
+    {% for post in posts %}
+    <li>
+      <strong>{{ post.title }}</strong><br>
+      <strong>Score</strong>: {{ post.score }}, <strong>Comment Count</strong>: {{ post.num_comments }}<br>
+      {% if post.url %}
+      <strong>Url</strong>: <a href="{{ post.url }}" target="_blank">{{ post.url }}</a><br>
+      {% endif %}
+      <p>{{ post.selftext }}</p>
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+</body>
+</html>
