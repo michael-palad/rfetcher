@@ -7,7 +7,9 @@
 <body>
   <form method="GET">
     Enter group to fetch from:
-    <input type="text" name="group">
+    <input type="text" name="group" value="{{ group_name }}">
+    <input type="radio" name="new" value="0" {{ 'checked="checked"' if is_new == "0" }}> Hot
+    <input type="radio" name="new" value="1" {{ 'checked="checked"' if is_new == "1" }}> New
     <input type="submit" value="Fetch">
   </form>
   
