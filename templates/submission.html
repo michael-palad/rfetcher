@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+   <div class="row mb-5">
+     <div class="col">
+        <h2 class="mb-1">Group: {{ group_name }}</h2>
+        <a href="{{ referrer }}">[Back]</a>
+
+        <h3 class="text-primary mt-3 mb-1">{{ post.title }}</h3>
+        <strong class="text-info">Score</strong>: {{ post.score }}, <strong class="text-info">Comment Count</strong>: {{ post.num_comments }}<br>
+        {% if post.url %}
+        <strong class="text-info">Url</strong>: <a href="{{ post.url }}" target="_blank">{{ post.url }}</a><br>
+        {% endif %}
+        <p class="mt-1">{{ post.selftext }}</p>
+       
+        {% if comments %}
+         <strong class="text-info mt-2">Top Level Comments</strong>
+         <ul class="mt-2">
+            {% for comment in comments %}
+            <li><p>{{ comment }}</p></li>
+            {% endfor %}
+          </ul> 
+        {% endif %}
+ 
+      </div> 
+   </div>
+{% endblock %}

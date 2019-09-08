@@ -4,13 +4,13 @@ import praw
 
 app = Flask(__name__)
 
-Post = namedtuple('Post', ['title', 'selftext', 'url', 'score', 'num_comments'])
+Post = namedtuple('Post', ['id', 'title', 'selftext', 'url', 'score', 'num_comments', 'subreddit'])
 
+reddit = praw.Reddit(client_id='opqOO7Uavtxmeg',
+                 client_secret='lXz6MRIK9AgagWlsKTTTxvCq-8o',
+                 user_agent='firstscript by /u/lakara20')
 
 def fetch_subreddit(subreddit_name, new_submissions=False):
-    reddit = praw.Reddit(client_id='opqOO7Uavtxmeg',
-                     client_secret='lXz6MRIK9AgagWlsKTTTxvCq-8o',
-                     user_agent='firstscript by /u/lakara20')
     posts = []
     submissions = None
     if new_submissions:
@@ -22,10 +22,21 @@ def fetch_subreddit(subreddit_name, new_submissions=False):
         url = submission.url
         if 'reddit.com' in url or 'redd.it' in url:
             url = None
-        posts.append(Post(title=submission.title, selftext=submission.selftext, url=url,
-                          score=submission.score, num_comments=submission.num_comments))         
+        posts.append(Post(id=submission.id, title=submission.title, selftext=submission.selftext, url=url,
+                          score=submission.score, num_comments=submission.num_comments, subreddit=submission.subreddit))         
     return posts
-        
+
+
+def fetch_submission(id):
+    submission = reddit.submission(id=id)
+    post = Post(id=submission.id, title=submission.title, selftext=submission.selftext, url=submission.url,
+                score=submission.score, num_comments=submission.num_comments, subreddit=submission.subreddit)
+    submission.comments.replace_more(limit=0)
+    top_level_comments = []
+    for top_level_comment in submission.comments:
+        top_level_comments.append(top_level_comment.body)
+    return (post, top_level_comments)
+    
 
 @app.route('/')
 def index():
@@ -35,4 +46,11 @@ def index():
     if group_name:
         posts = fetch_subreddit(group_name.strip(), (is_new == '1'))
     return render_template('index.html', group_name=group_name, is_new=is_new, posts=posts)
+  
+  
+@app.route('/submission/<string:id>')
+def submission(id):
+    post, comments = fetch_submission(id)
+    return render_template('submission.html', group_name=post.subreddit, post=post, comments=comments, referrer=request.referrer)
+    
 
