@@ -51,6 +51,7 @@ def index():
 @app.route('/submission/<string:id>')
 def submission(id):
     post, comments = fetch_submission(id)
-    return render_template('submission.html', group_name=post.subreddit, post=post, comments=comments, referrer=request.referrer)
+    return render_template('submission.html', group_name=post.subreddit, post=post, comments=comments,
+                           referrer=request.referrer, comments_count=len(comments))
     
 

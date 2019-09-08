@@ -14,7 +14,7 @@
         <p class="mt-1">{{ post.selftext }}</p>
        
         {% if comments %}
-         <strong class="text-info mt-2">Top Level Comments</strong>
+         <strong class="text-info mt-2">Top Level Comments ({{ comments_count }})</strong>
          <ul class="mt-2">
             {% for comment in comments %}
             <li><p>{{ comment }}</p></li>
