@@ -3,30 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>RFetcher</title>
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-  <form method="GET">
-    Enter group to fetch from:
-    <input type="text" name="group" value="{{ group_name }}">
-    <input type="radio" name="new" value="0" {{ 'checked="checked"' if is_new == "0" }}> Hot
-    <input type="radio" name="new" value="1" {{ 'checked="checked"' if is_new == "1" }}> New
-    <input type="submit" value="Fetch">
-  </form>
+  <div class="container mt-3 mb-5">
+    <div class="row mb-5">
+      <div class="col-sm-12">
+        <form method="GET" class="form-inline">
+
+            <label class="mr-2" for="group-name">Enter group to fetch from: </label> 
+            <input type="text" class="form-control mr-3" id="group-name" name="group" value="{{ group_name }}">
+
+          
+            <input type="radio" class="form-check-input mr-2" id="hot-radio" name="new" value="0" {{ 'checked="checked"' if is_new == "0" }}>
+            <label class="form-check-label mr-2" for="hot-radio">Hot</label>
+            <input type="radio" class="form-check-input mr-2" id="new-radio" name="new" value="1" {{ 'checked="checked"' if is_new == "1" }}>
+            <label class="form-check-label mr-3" for="new-radio">New</label>
+          
+          <input type="submit" class="btn btn-primary" value="Fetch">
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        {% if group_name and posts %}
+        <h3>Posts for group {{ group_name }}</h3>
+        <ol>
+          {% for post in posts %}
+          <li>
+            <strong>{{ post.title }}</strong><br>
+            <strong>Score</strong>: {{ post.score }}, <strong>Comment Count</strong>: {{ post.num_comments }}<br>
+            {% if post.url %}
+            <strong>Url</strong>: <a href="{{ post.url }}" target="_blank">{{ post.url }}</a><br>
+            {% endif %}
+            <p>{{ post.selftext }}</p>
+          </li>
+          {% endfor %}
+        </ol>
+        {% endif %}
+      </div>
+    </div>
+  </div>
   
-  {% if group_name and posts %}
-  <h3>Posts for group {{ group_name }}</h3>
-  <ol>
-    {% for post in posts %}
-    <li>
-      <strong>{{ post.title }}</strong><br>
-      <strong>Score</strong>: {{ post.score }}, <strong>Comment Count</strong>: {{ post.num_comments }}<br>
-      {% if post.url %}
-      <strong>Url</strong>: <a href="{{ post.url }}" target="_blank">{{ post.url }}</a><br>
-      {% endif %}
-      <p>{{ post.selftext }}</p>
-    </li>
-    {% endfor %}
-  </ol>
-  {% endif %}
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
