@@ -14,9 +14,9 @@ def fetch_subreddit(subreddit_name, new_submissions=False):
     posts = []
     submissions = None
     if new_submissions:
-        submissions = reddit.subreddit(subreddit_name).new(limit=15)
+        submissions = reddit.subreddit(subreddit_name).new(limit=20)
     else:
-        submissions = reddit.subreddit(subreddit_name).hot(limit=15)
+        submissions = reddit.subreddit(subreddit_name).hot(limit=20)
 
     for submission in submissions:
         url = submission.url

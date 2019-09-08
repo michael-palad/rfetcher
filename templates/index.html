@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
-<body>
+<body style="background-color: #F5D6C6">
   <div class="container mt-3 mb-5">
     <div class="row mb-5">
       <div class="col-sm-12">
@@ -30,16 +30,16 @@
     <div class="row">
       <div class="col">
         {% if group_name and posts %}
-        <h3>Posts for group {{ group_name }}</h3>
+        <h3 class="mb-3">Posts for group {{ group_name }}</h3>
         <ol>
           {% for post in posts %}
-          <li>
-            <strong>{{ post.title }}</strong><br>
-            <strong>Score</strong>: {{ post.score }}, <strong>Comment Count</strong>: {{ post.num_comments }}<br>
+          <li class="mb-4">
+            <h5 class="text-primary mb-1">{{ post.title }}</h5>
+            <strong class="text-info">Score</strong>: {{ post.score }}, <strong class="text-info">Comment Count</strong>: {{ post.num_comments }}<br>
             {% if post.url %}
-            <strong>Url</strong>: <a href="{{ post.url }}" target="_blank">{{ post.url }}</a><br>
+            <strong class="text-info">Url</strong>: <a href="{{ post.url }}" target="_blank">{{ post.url }}</a><br>
             {% endif %}
-            <p>{{ post.selftext }}</p>
+            <p class="mt-1">{{ post.selftext }}</p>
           </li>
           {% endfor %}
         </ol>
