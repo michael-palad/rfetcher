@@ -17,7 +17,9 @@
          <strong class="text-info mt-2">Top Level Comments ({{ comments_count }})</strong>
          <ul class="mt-2">
             {% for comment in comments %}
-            <li><p>{{ comment }}</p></li>
+            <li> <strong>{{ comment['author_name'] }} ({{ comment['score'] }})</strong>
+              <p>{{ comment['body'] }}</p>
+            </li>
             {% endfor %}
           </ul> 
         {% endif %}

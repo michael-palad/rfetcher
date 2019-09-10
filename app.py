@@ -13,10 +13,11 @@ reddit = praw.Reddit(client_id='opqOO7Uavtxmeg',
 def fetch_subreddit(subreddit_name, new_submissions=False):
     posts = []
     submissions = None
+    limit = 30
     if new_submissions:
-        submissions = reddit.subreddit(subreddit_name).new(limit=20)
+        submissions = reddit.subreddit(subreddit_name).new(limit=limit)
     else:
-        submissions = reddit.subreddit(subreddit_name).hot(limit=20)
+        submissions = reddit.subreddit(subreddit_name).hot(limit=limit)
 
     for submission in submissions:
         url = submission.url
@@ -34,7 +35,14 @@ def fetch_submission(id):
     submission.comments.replace_more(limit=0)
     top_level_comments = []
     for top_level_comment in submission.comments:
-        top_level_comments.append(top_level_comment.body)
+        comment = { 'body': top_level_comment.body,
+                    'score': top_level_comment.score
+        }
+        if top_level_comment.author is not None:
+            comment['author_name'] = top_level_comment.author.name
+        top_level_comments.append(comment)
+
+    top_level_comments.sort(key=lambda c : int(c['score']), reverse=True)
     return (post, top_level_comments)
     
 
