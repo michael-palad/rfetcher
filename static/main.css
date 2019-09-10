@@ -1,0 +1,9 @@
+.comments {
+  list-style-type: none;  
+}
+
+.comment:before {
+  content: '[-]';
+  margin-left: -20px;
+  margin-right: 5px;
+}

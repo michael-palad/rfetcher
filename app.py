@@ -1,6 +1,7 @@
 from collections import namedtuple
 from flask import Flask, render_template, request
 import praw
+from markdown2 import Markdown
 
 app = Flask(__name__)
 
@@ -30,12 +31,15 @@ def fetch_subreddit(subreddit_name, new_submissions=False):
 
 def fetch_submission(id):
     submission = reddit.submission(id=id)
-    post = Post(id=submission.id, title=submission.title, selftext=submission.selftext, url=submission.url,
+    markdowner = Markdown()
+    selftext = markdowner.convert(submission.selftext)
+    post = Post(id=submission.id, title=submission.title, selftext=selftext, url=submission.url,
                 score=submission.score, num_comments=submission.num_comments, subreddit=submission.subreddit)
     submission.comments.replace_more(limit=0)
     top_level_comments = []
     for top_level_comment in submission.comments:
-        comment = { 'body': top_level_comment.body,
+        comment_body = markdowner.convert(top_level_comment.body)
+        comment = { 'body': comment_body,
                     'score': top_level_comment.score
         }
         if top_level_comment.author is not None:
