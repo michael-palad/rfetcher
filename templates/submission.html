@@ -15,9 +15,9 @@
        
         {% if comments %}
          <div class="text-info mt-5"><strong>Top Level Comments ({{ comments_count }})</strong></div>
-         <ul class="comments mt-2">
+         <ul class="sub-comments mt-2">
             {% for comment in comments %}
-            <li class="comment"> <strong>{{ comment['author_name'] }} ({{ comment['score'] }})</strong>
+            <li class="sub-comment"> <strong>{{ comment['author_name'] }} ({{ comment['score'] }})</strong>
               <div>{{ comment['body']|safe|urlize(target='_blank') }}</div>
             </li>
             {% endfor %}
